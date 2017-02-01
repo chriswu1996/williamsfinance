@@ -1,0 +1,154 @@
+---
+title: "Williams Finance"
+author: "Yuxin Wu '19"
+date: "2017-1-30"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Williams Finance}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+  The williams finance package uses data published online by the Williams College Registrar to calculate statistics about the school bills of Williams College over the years. By scanning data directly from text versions of the published online catalog, this package produces statistical summaries on college bills of Williams College from 2000 to 2016 and predicts future amount and growth of college bills.
+
+## Introduction
+
+  College bills are expensive, especially without financial aid. The bills have increased significantly over the years. Thus, understanding the factors that are driving the increase in college bills is important for us to know what we are paying for and the worth of the money we spent.
+
+  By looking at the relationship between the increase in college bills and the inflation rate, the relative increase in different components of the college bill and a direct comparison between the inflation rate and the college expenses over the years, this package helps to give a better understanding of how and why the college bills have increased. By using two different models to predict future college bills and future growth in college bills, this package also makes it easier for families to save early and anticipates future college bills.
+
+## Data
+
+The data of this package was taken from the Office of The Registrar of Williams College in the form of pdf files. Information on college bills were selected manually from the pdf files and converted into text files. Data on inflation was taken down manually from the Bureau of Labor Statistics.
+
+## readbills and readinflation
+
+The function `readbills(year)` and `readinflation()` reads into the text file and extracts useful data about bills or inflation with the help of `stringr`. The output is a list of the amount of different components of the bills or the inflation rate from 2000 to 2016:
+
+`> readbills(2016)`
+```{r, echo=FALSE}
+
+williamsfinance::readbills(2016)
+```
+
+Note that for `readbills(year)`, year can only be between 2000-2016
+
+`> readinflation()`
+```{r, echo=FALSE}
+
+williamsfinance::readinflation()
+```
+
+## plotbills
+
+`plotbills(year)` visualizes components of school bills data from `readbills`. Note that `year` can only be between 2000-2016.
+
+`> plotbills(2016)`
+
+```{r, echo=FALSE, fig.height=5, fig.width=8}
+
+williamsfinance::plotbills(2016)
+```
+
+## pctchange
+
+`pctchange(year)` compares percentage change of all components of school bills data from `readbills` with the inflation rate. Note that `year` can only be between 2001-2016.
+
+`> pctchange(2016)`
+
+```{r, echo=FALSE, fig.height=5, fig.width=8}
+
+williamsfinance::pctchange(2016)
+```
+
+## predictbills and predictpc
+
+`predictbills(year)` predicts the cost of school bills at `year` based on a linear model. The model used for prediction can be viewed by `showstats("predictbills")`.
+
+`> predictbills(2020)`
+
+```{r, echo=FALSE}
+
+williamsfinance::predictbills(2020)
+```
+
+`predictpc(year)` predicts the percentage increase of school bills from the previous year at `year` based on an exponential model. The model used for prediction can be viewed by `showstats("predictpc")`.
+
+`> predictpc(2020)`
+
+```{r, echo=FALSE}
+
+williamsfinance::predictpc(2020)
+```
+
+## showstats
+
+`showstats("type")` uses bills data from `readbills` function to perform appropriate analysis and generate graphics associated with the data. "type" categorizes the kind of analysis to be done.
+
+The possible options are `summary`, `bills`, `pctchange`, `inflation`, `predictbills`, `predictpc` and `inflationbills`:
+
+`summary` displays the total amount, percentage increase and total increase of school bills and the inflation rate of each year.
+
+`> showstats("summary")`
+
+```{r, echo=FALSE, fig.height=5, fig.width=8}
+
+williamsfinance::showstats("summary")
+```
+
+`bills` displays the timeplot of school bills across the years.
+
+`> showstats("bills")`
+
+```{r, echo=FALSE, fig.height=5, fig.width=8}
+
+williamsfinance::showstats("bills")
+```
+
+`pctchange` shows a timeplot of percentage increase of bills across the years.
+
+`> showstats("pctchange")`
+
+```{r, echo=FALSE, fig.height=5, fig.width=8}
+
+williamsfinance::showstats("pctchange")
+```
+
+`inflation` shows a timeplot of percentage increase of school bills compared to inflation. There does not exist a clear relationship between the inflation rate and the percentage growth of school bills.
+
+`> showstats("inflation")`
+
+```{r, echo=FALSE, fig.height=5, fig.width=8}
+
+williamsfinance::showstats("inflation")
+```
+
+`predictbills` shows a plot of the amount of school bills and the model used to predict future school bills. The linear model fits fairly well to the data of school bills.
+
+`> showstats("predictbills")`
+
+```{r, echo=FALSE, fig.height=5, fig.width=8}
+
+williamsfinance::showstats("predictbills")
+```
+
+`predictpc` shows a plot of the percentage increase of school bills and the model used to predict future percentage increases. The exponential data fits fairly well to percentage increase of school bills from 2003-2016.
+
+`> showstats("predictpc")`
+
+```{r, echo=FALSE, fig.height=5, fig.width=8}
+
+williamsfinance::showstats("predictpc")
+```
+
+`inflationbills` shows a plot of a comparison between the actual cost of school bills and the cost of school bills if it has been increasing at the inflation rate since 2000. The cost of school bills has been growing at a much faster rate than the price level (CPI) in Massachusetts.
+
+`> showstats("inflationbills")`
+
+```{r, echo=FALSE, fig.height=5, fig.width=8}
+
+williamsfinance::showstats("inflationbills")
+```
+
+## Conclusion
+There is no apparent correlation between the inflation rate and school bills. The school bills has been growing mostly in a linear manner, almost doubling the rate of growth of the price level (CPI) in Massachusetts. After 2003, the percentage growth of school bills has been decreasing exponentially.

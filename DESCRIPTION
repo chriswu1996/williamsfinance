@@ -1,0 +1,19 @@
+Package: williamsfinance
+Type: Package
+Title: Shows Statistics and Predicts the College Bills of Williams College
+Version: 0.1.0
+Author: Yuxin Wu [aut,cre]
+Maintainer: Yuxin Wu <yw2@williams.edu>
+Description: This package loads data on college bills of Williams College
+    from 2000 to 2016 from natively stored text files. It shows statistics
+    and graphics of the data and tries to predict future college bills.
+License: GPL-2
+Encoding: UTF-8
+LazyData: TRUE
+Imports: stringr,
+         ggplot2,
+RoxygenNote: 5.0.1
+Suggests: testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
